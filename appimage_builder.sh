@@ -34,8 +34,15 @@ function build {
 # default parameters value
 BUILD=b
 FETCH=f
-VERSION=$(curl -v -L https://www.scilab.org/download/latest 2>&1 1>/dev/null \
-    |awk '/^> GET /{split($3,a,"/")} END{print a[3]}')
+if [[ -n "$TRAVIS_TAG" ]]; then
+    IFS=-
+    set $TRAVIS_TAG
+    VERSION=$1
+    unset IFS
+else
+    VERSION=$(curl -v -L https://www.scilab.org/download/latest 2>&1 1>/dev/null \
+              |awk '/^> GET /{split($3,a,"/")} END{print a[3]}')
+fi
 ARCH=$(uname -m)
 
 while (( "$#" )); do
