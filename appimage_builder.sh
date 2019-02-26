@@ -15,12 +15,12 @@ function usage {
 
 function fetch {
     if [[ ! -f appimagetool-x86_64.AppImage ]]; then
-        curl -O https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+        curl -LO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
         chmod a+x appimagetool-x86_64.AppImage 
     fi
 
     if [[ ! -f scilab-${VERSION}.bin.linux-${ARCH}.tar.gz ]]; then
-        curl -O https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.linux-${ARCH}.tar.gz
+        curl -LO https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.linux-${ARCH}.tar.gz
     fi
 }
 
