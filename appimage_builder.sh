@@ -2,6 +2,7 @@
 
 set -e
 set -x
+DIRNAME=$(dirname "$0")
 
 function usage {
     echo "Usage: ./appimage_builder.sh"
@@ -24,10 +25,10 @@ function fetch {
 }
 
 function build {
-    tar -xzf scilab-${VERSION}.bin.linux-${ARCH}.tar.gz
-    rm usr && ln -s scilab-${VERSION} usr
+    tar -xzf scilab-${VERSION}.bin.linux-${ARCH}.tar.gz -C ${DIRNAME}
+    rm ${DIRNAME}/usr && ln -s scilab-${VERSION} ${DIRNAME}/usr
 
-   ./appimagetool-x86_64.AppImage .
+    ./appimagetool-x86_64.AppImage ${DIRNAME}
 }
 
 # default parameters value
@@ -74,5 +75,4 @@ fi
 if [[ -n $BUILD ]]; then
     build
 fi
-
 
