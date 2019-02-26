@@ -1,10 +1,10 @@
----
 language: bash
 before_script: "$TRAVIS_BUILD_DIR/appimage_builder.sh -f"
 script: "$TRAVIS_BUILD_DIR/appimage_builder.sh -b"
 deploy:
   provider: releases
-  api_key: "e4bc31425c02132d2be935c2365981346f8cf705"
+  api_key:
+    secure: ClfcDPilA0/5E8uPfTxRlGUIVCr/H7kLAYAKx3SgJ1QYmhkv/yH4EgooP/RpwUyVJP0vGoBlAbyqSfL33IUrxGFrwTYH000zMjVdU0w8VuCa9fBdIXOPLUnFO7Go4+zv2fPHbuARjZLqlgUFVBSVEgNNjtmPx8gLlgnve5Kim4Y7Y/rw9jMnHRRnY0PI1M7iAdEVclU9EIkm55Pb2z5TZ5N7ajESWy49jZhVvsHaXmRdzlGoTA6vVhmzKHbd6XTE4wkSopLPH9PH0Qlj6CrO41l2DAB0IAHPpnTHx7HWDmj91INpoVaG4cWEWcTudGVpP6DOP8uABMFfFHzhLOyfLjsVy5bsrjRha3tceuO6QOSmCWSqpIF8ONOjCWWgt95jhK4xEtPODDQCGU3LwwDlJAXnRv6jlyIl6olxJXwQNe5vr6KkB0YshVMddM1RTMsGHNJwmwf6kd4k6Uz0BgKZ+DnIWvBq0rrGu1YjDXmPFmiKosFmx0x5PX1M+iG6ywCqKhOJWLOa0aoqnhxsFK6Jfisa4tw91+cKBzta9L6YgE7ARsXNFP3onYG3tn7OAy5Jp447vz3iIFndWE5y21eLekTWNymceNFJBc4AAx8AUlaWmoi08fnegYkDXrq3oSu1fyentRK4jHNYTLTrIKK+YKEtY5JQmHyqhYNyTQdm1wg=
   file_glob: true
   file: "Scilab*AppImage"
   skip_cleanup: true
