@@ -4,7 +4,7 @@ set -e
 set -x
 
 function usage {
-    echo "Usage: ./appimage-builder.sh"
+    echo "Usage: ./appimage_builder.sh"
     echo "-h         : display help"
     echo "-r VERSION : use a specific VERSION, could be version number or \"latest\" (default)"
     echo "-m ARCH    : use a specific ARCH, the machine is detected by default"
