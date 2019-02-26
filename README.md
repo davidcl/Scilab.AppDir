@@ -6,5 +6,5 @@ The runner script shipped within the scilab tarball is generic enough to be re-u
 
 ## How to reproduce the AppImage binary ?
 
-The `appimage-builder.sh` script is used to fetch appimagestool and Scilab binaries from teh web. Use it to create or customize your own Scilab binary.
+The `appimage_builder.sh` script is used to fetch appimagestool and Scilab binaries from teh web. Use it to create or customize your own Scilab binary.
 
