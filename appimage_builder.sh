@@ -29,8 +29,9 @@ function build {
     rm ${DIRNAME}/usr && ln -s scilab-${VERSION} ${DIRNAME}/usr
 
     # AppStream upstream metadata
-    mkdir ${DIRNAME}/usr/share/metainfo
-    mv ${DIRNAME}/usr/share/appdata/scilab.appdata.xml ${DIRNAME}/usr/share/metainfo/
+    METAINFO=${DIRNAME}/usr/share/metainfo
+    [ -d ${METAINFO} ] || mkdir ${METAINFO}
+    mv ${DIRNAME}/usr/share/appdata/scilab.appdata.xml ${METAINFO}/
 
     ./appimagetool-x86_64.AppImage ${DIRNAME}
 }
