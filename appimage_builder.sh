@@ -28,6 +28,10 @@ function build {
     tar -xzf scilab-${VERSION}.bin.linux-${ARCH}.tar.gz -C ${DIRNAME}
     rm ${DIRNAME}/usr && ln -s scilab-${VERSION} ${DIRNAME}/usr
 
+    # AppStream upstream metadata
+    mkdir ${DIRNAME}/usr/share/metainfo
+    mv ${DIRNAME}/usr/share/appdata/scilab.appdata.xml ${DIRNAME}/usr/share/metainfo/
+
     ./appimagetool-x86_64.AppImage ${DIRNAME}
 }
 
