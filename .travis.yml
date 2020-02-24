@@ -4,7 +4,7 @@ before_script: "$TRAVIS_BUILD_DIR/appimage_builder.sh -f"
 script: "$TRAVIS_BUILD_DIR/appimage_builder.sh -b"
 deploy:
   provider: releases
-  api_key: "093a7cc92b109b8ed057996331a78d6f9f1ead5c"
+  api_key: "$GITHUB_OAUTH_TOKEN"
   file_glob: true
   file: "Scilab*AppImage"
   skip_cleanup: true
