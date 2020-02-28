@@ -4,7 +4,8 @@ before_script: "$TRAVIS_BUILD_DIR/appimage_builder.sh -f"
 script: "$TRAVIS_BUILD_DIR/appimage_builder.sh -b"
 deploy:
   provider: releases
-  file: Scilab-X86_64.AppImage
+  file_glob: true
+  file: "Scilab*AppImage"
   skip_cleanup: true
   api_key:
     secure: PKgyNk9oKPn8CqSpy4hdhDwaAkNLvoDQ20uBCTC5vsu7h18TR0qebKhtDbZJTfRxbyHGOLTDPibVhu32Idshj2fNnHagV0R0H4+duK4JTHzrWf0CLBH3dT2vW6Pj9xYl1xwpczE4MMdpEqSon83vD/oH/EbEoTPiC/mc+WkEoVE8cPQKeQC3JcwAz5vO5OSNIJM27sQZ8FSbCPNBrWcMrUQIo9S/dWPvhJKQ+508v/foEwORedvys7CEec8QbF6G5sVBT5vJF6OjTQEKYFzxGORbHRLsuH7r1P6xxoZT8z5Mgm1mbUHp1qyt5ORvvfYIru+5UjPDRsMBVaW4ypFN+1V1T11Sj3nO0Wm6PTmjzVcfdAauKA37OgLQVtsx3zpZPSbH9y7Fs0wGQFqocKaO6+fbI3crHl2j8ePR5rv2SCHBXohewk77hKktuMVZJokyWqV9JLilvk/FuvK7YIJ3BrSdOOUsP7lR+MmC3QAgaxTI0gL65ta3Obrm/DhcKYM3tvFBLaTobtg45Zd/pdE62Coqx9IJHSzPyfosncSTo37VAAhtZ9mFztwMrtzO4SBYKSvJkw/1veMyOrZ4XtPaGH1QxlXaZaDPUoePMEAsrqhvR95kZgTXhHXTnqItuokIwzF23U+5uwHdBXdAOPnyIaRb+PPUqo9Q4rsYKf6DEPQ=
