@@ -20,12 +20,12 @@ function fetch {
     fi
 
     if [[ ! -f scilab-${VERSION}.bin.linux-${ARCH}.tar.gz ]]; then
-        curl -LO https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.linux-${ARCH}.tar.gz
+        curl -LO https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.${ARCH}.tar.xz
     fi
 }
 
 function build {
-    tar -xzf scilab-${VERSION}.bin.linux-${ARCH}.tar.gz -C ${DIRNAME}
+    tar -xzf scilab-${VERSION}.bin.${ARCH}.tar.xz -C ${DIRNAME}
     rm ${DIRNAME}/usr && ln -s scilab-${VERSION} ${DIRNAME}/usr
 
     # AppStream upstream metadata
@@ -48,7 +48,8 @@ else
     VERSION=$(curl -v -L https://www.scilab.org/download/latest 2>&1 1>/dev/null \
               |awk '/^> GET /{split($3,a,"/")} END{print a[3]}')
 fi
-ARCH=$(uname -m)
+# ARCH=$(cc -dumpmachine)
+ARCH=$(sh --version | tr -d '()' |awk 'NR==1{print $NF}')
 
 while (( "$#" )); do
 
