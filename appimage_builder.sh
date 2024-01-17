@@ -25,7 +25,7 @@ function fetch {
 }
 
 function build {
-    tar -xzf scilab-${VERSION}.bin.${ARCH}.tar.xz -C ${DIRNAME}
+    tar -xJf scilab-${VERSION}.bin.${ARCH}.tar.xz -C ${DIRNAME}
     rm ${DIRNAME}/usr && ln -s scilab-${VERSION} ${DIRNAME}/usr
 
     # AppStream upstream metadata
@@ -45,11 +45,11 @@ if [[ -n "$TRAVIS_TAG" ]]; then
     VERSION=$1
     unset IFS
 else
-    VERSION=$(curl -v -L https://www.scilab.org/download/latest 2>&1 1>/dev/null \
-              |awk '/^> GET /{split($3,a,"/")} END{print a[3]}')
+    VERSION=$(curl -v https://www.scilab.org/download/latest 2>&1 1>/dev/null \
+              |awk -F- '/^< location: /{ sub("\r$", ""); print $2 }')
 fi
-# ARCH=$(cc -dumpmachine)
-ARCH=$(sh --version | tr -d '()' |awk 'NR==1{print $NF}')
+ARCH=$(cc -dumpmachine)
+#ARCH=$(sh --version | tr -d '()' |awk 'NR==1{print $NF}')
 
 while (( "$#" )); do
 
