@@ -16,72 +16,80 @@ function usage {
 function fetch {
     if [[ ! -f appimagetool-x86_64.AppImage ]]; then
         curl -LO https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
-        chmod a+x appimagetool-x86_64.AppImage 
+        chmod a+x appimagetool-x86_64.AppImage
     fi
-
+    
     if [[ ! -f scilab-${VERSION}.bin.linux-${ARCH}.tar.gz ]]; then
-        curl -LO https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.${ARCH}.tar.xz
+        curl -LO "https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.${ARCH}.tar.xz"
     fi
 }
 
 function build {
-    tar -xJf scilab-${VERSION}.bin.${ARCH}.tar.xz -C ${DIRNAME}
-    rm ${DIRNAME}/usr && ln -s scilab-${VERSION} ${DIRNAME}/usr
-
+    tar -xJf "scilab-${VERSION}.bin.${ARCH}.tar.xz" -C "${DIRNAME}"
+    rm "${DIRNAME}/usr" && ln -s "scilab-${VERSION}" "${DIRNAME}/usr"
+    
     # AppStream upstream metadata
-    METAINFO=${DIRNAME}/usr/share/metainfo
-    [ -d ${METAINFO} ] || mkdir ${METAINFO}
-    mv ${DIRNAME}/usr/share/appdata/scilab.appdata.xml ${METAINFO}/
-
-    ./appimagetool-x86_64.AppImage ${DIRNAME}
+    METAINFO="${DIRNAME}/usr/share/metainfo"
+    [ -d "${METAINFO}" ] || mkdir "${METAINFO}"
+    mv "${DIRNAME}/usr/share/appdata/scilab.appdata.xml" "${METAINFO}/"
+    
+    ./appimagetool-x86_64.AppImage "${DIRNAME}"
 }
 
 # default parameters value
 BUILD=b
 FETCH=f
+VERSION=
 if [[ -n "$TRAVIS_TAG" ]]; then
     IFS=-
-    set $TRAVIS_TAG
-    VERSION=$1
+    set "$TRAVIS_TAG"
+    VERSION="$1"
     unset IFS
-else
-    VERSION=$(curl -v https://www.scilab.org/download/latest 2>&1 1>/dev/null \
-              |awk -F- '/^< location: /{ sub("\r$", ""); print $2 }')
 fi
 ARCH=$(cc -dumpmachine)
 #ARCH=$(sh --version | tr -d '()' |awk 'NR==1{print $NF}')
 
-while (( "$#" )); do
+ARGS=( "$@" )
 
-    case "$1" in
-        "-h")
+for i in "${!ARGS[@]}"; do
+    case "${ARGS[i]}" in
+        '')             # Skip if element is empty (happens when it's unsetted before)
+            continue
+        ;;
+        -h|--help)
             usage
             exit 0
-            ;;
-
-        "-r")
-            shift
-            VERSION="$1"
-            ;;
-
-        "-m")
-            shift
-            ARCH="$1"
-            ;;
-
-        "-b")
-            FETCH=
-            ;;
-
-        "-f")
-            BUILD=
-            ;;
+        ;;
+        -r|--release)
+            VERSION="${ARGS[i+1]}"
+            unset 'ARGS[i+1]'
+        ;;
+        -m|--arch)
+            ARCH="${ARGS[i+1]}"
+            unset 'ARGS[i+1]'
+        ;;
+        -b|--binary)
+            FETCH=""
+        ;;
+        -f|--fetch)
+            BUILD=""
+        ;;
+        --)             # End of arguments
+            unset 'ARGS[i]'
+            break
+        ;;
+        *)              # Skip unset if our argument has not been matched
+            continue
+        ;;
     esac
-
-    shift
+    unset 'ARGS[i]'
 done
 
 # action
+if [[ ! -n $VERSION ]]; then
+    VERSION=$(curl -v https://www.scilab.org/download/latest 2>&1 1>/dev/null \
+    |awk -F- '/^< location: /{ sub("\r$", ""); print $2 }')
+fi
 if [[ -n $FETCH ]]; then
     fetch
 fi
