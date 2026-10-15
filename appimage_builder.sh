@@ -20,7 +20,7 @@ function fetch {
     fi
     
     if [[ ! -f scilab-${VERSION}.bin.${ARCH}.tar.xz ]]; then
-        curl -LO "https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.${ARCH}.tar.xz"
+        curl -fLO "https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.${ARCH}.tar.xz"
     fi
 }
 
@@ -46,7 +46,7 @@ if [[ -n "$TRAVIS_TAG" ]]; then
     VERSION="$1"
     unset IFS
 fi
-ARCH=$(cc -dumpmachine)
+ARCH=$(cc -dumpmachine | sed 's/-pc-/-/')
 #ARCH=$(sh --version | tr -d '()' |awk 'NR==1{print $NF}')
 
 ARGS=( "$@" )
