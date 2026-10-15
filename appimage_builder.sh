@@ -19,7 +19,7 @@ function fetch {
         chmod a+x appimagetool-x86_64.AppImage
     fi
     
-    if [[ ! -f scilab-${VERSION}.bin.linux-${ARCH}.tar.gz ]]; then
+    if [[ ! -f scilab-${VERSION}.bin.${ARCH}.tar.xz ]]; then
         curl -LO "https://www.scilab.org/download/${VERSION}/scilab-${VERSION}.bin.${ARCH}.tar.xz"
     fi
 }
@@ -87,8 +87,8 @@ done
 
 # action
 if [[ ! -n $VERSION ]]; then
-    VERSION=$(curl -v https://www.scilab.org/download/latest 2>&1 1>/dev/null \
-    |awk -F- '/^< location: /{ sub("\r$", ""); print $2 }')
+    VERSION=$(curl -sL https://www.scilab.org/download \
+    |grep -o 'download/[0-9][0-9.]*/' |head -n 1 |cut -d/ -f2)
 fi
 if [[ -n $FETCH ]]; then
     fetch
